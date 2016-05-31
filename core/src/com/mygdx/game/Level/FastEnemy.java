@@ -13,7 +13,7 @@ public class FastEnemy extends Entity {
 	boolean isAlive;
 
     FastEnemy(World world, Vector2 spawnposition) {
-        super(world, spawnposition, "player"); // No sprite for enemy yet :c
+        super(world, spawnposition, "player1"); // No sprite for enemy yet :c
 
         body.setUserData("fast_enemy");
 		isAlive = true;

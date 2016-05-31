@@ -1,4 +1,4 @@
-package com.mygdx.game.Level;
+package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
  * Created by Rueban Rasaselvan on 23/05/2016.
  */
 //intothewoods group:https://github.com/spidermanchild/IntoTheWoodsMultScreens
-public class BtnBaseStyle extends TextButton.TextButtonStyle {
+public class TxtBtnBaseStyle extends TextButton.TextButtonStyle {
     Skin skin = new Skin();
     TextureAtlas taAtlas;
 
-    public BtnBaseStyle() {
+    public TxtBtnBaseStyle() {
         BitmapFont font = new BitmapFont();
         skin.add("default", font);
         taAtlas = new TextureAtlas(Gdx.files.internal("images/UpButton.pack"));

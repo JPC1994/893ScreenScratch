@@ -16,12 +16,12 @@ public class Player extends Entity {
 	int bulletCooldown;
 	boolean bImmune=false;
 
-	Player(World world, Vector2 spawnposition) {
-		super(world, spawnposition, "player");
+	Player(World world, Vector2 spawnposition, String SpriteLocation) {
+		super(world, spawnposition, SpriteLocation);
 
 		health = MAX_HEALTH;
 		bulletCooldown = 0;
-
+		System.out.println(SpriteLocation);
 		body.setUserData("player");
 		Filter filter = new Filter();
 		filter.categoryBits = 2;

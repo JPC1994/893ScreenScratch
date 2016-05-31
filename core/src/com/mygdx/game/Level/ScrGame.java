@@ -20,17 +20,17 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.GameMain;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-//user data is apparently henceforth banned(Kevin)
 
 /**
  * Created by k9sty on 2016-03-12.
  */
 
 public class ScrGame implements Screen, InputProcessor {
-	GameMain game;
+	com.mygdx.game.GameMain game;
 	World world;
 	Map map;
 	OrthographicCamera camera;
@@ -43,10 +43,12 @@ public class ScrGame implements Screen, InputProcessor {
 	BitmapFont font= new BitmapFont();
     boolean bReset=false;
     float elapsedtime = 0;
+    String sPlayer, sLvl;
 
-	ScrGame(GameMain gameMain) {
+	public ScrGame(GameMain gameMain, String sPlayer, String sLvl) {
 		this.game = gameMain;
-
+        this.sPlayer=sPlayer;
+        this.sLvl=sLvl;
 		spriteBatch = new SpriteBatch();
 		bullets = new ArrayList<Bullet>();
 
@@ -135,7 +137,7 @@ public class ScrGame implements Screen, InputProcessor {
                             //if the player's health reaches 0, send the user to the game over screen
                             if (player.health == 0) {
                                 //sets the screen for the dead player
-                                game.currentState = GameMain.GameState.DEAD;
+                                game.currentState = com.mygdx.game.GameMain.GameState.DEAD;
                                 game.updateScreen();
                                 reset();
                             }
@@ -164,7 +166,7 @@ public class ScrGame implements Screen, InputProcessor {
 		});
 
 		// pass world and desired map
-		map = new Map(world, "debugroom");
+		map = new Map(world, sLvl);
 	}
 
 	private void initializeCamera() {
@@ -179,7 +181,7 @@ public class ScrGame implements Screen, InputProcessor {
 	}
 
 	private void initializePlayer() {
-		player = new Player(world, map.getPlayerSpawnPoint());
+        player = new Player(world, map.getPlayerSpawnPoint(),sPlayer);
         immunity();
 	}
 

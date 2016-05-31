@@ -41,7 +41,6 @@ public class Entity {
     boolean bRight;
     boolean isIdle;
     boolean isGrounded;
-    short shFoot;
 
     Entity(World world, Vector2 position, String spriteLocation) {
         this.world = world;

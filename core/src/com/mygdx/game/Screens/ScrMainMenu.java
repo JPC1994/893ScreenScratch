@@ -11,8 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.mygdx.game.Level.BtnBaseStyle;
-import com.mygdx.game.Level.GameMain;
+import com.mygdx.game.GameMain;
 
 /**
  * Created by Rueban Rasaselvan on 10/05/2016.
@@ -21,20 +20,17 @@ public class ScrMainMenu implements Screen, InputProcessor{
     public SpriteBatch batch = new SpriteBatch();
     Stage stage;
     GameMain game;
-    private Texture textureMenu;
-    private Sprite spriteMenu;
+    private Texture textureBack;
+    private Sprite spriteBack;
     TextButton btnStart;
     TextButton btnOptions;
-    TextButton btnLvlSelect;
-    TextButton btnCharSelect;
-    BtnBaseStyle textButtonStyle = new BtnBaseStyle();
+    TxtBtnBaseStyle textButtonStyle = new TxtBtnBaseStyle();
 
     //TODO: Get a proper end screen and button image for the respawn screen
     public ScrMainMenu(GameMain game) {
         this.game = game;
-        textureMenu=new Texture(Gdx.files.internal("images/wall.png"));
-        spriteMenu=new Sprite(textureMenu);
-        spriteMenu.setPosition(0,0);
+        textureBack=new Texture(Gdx.files.internal("images/wall.png"));
+        spriteBack=new Sprite(textureBack);
     }
 
 
@@ -49,6 +45,7 @@ public class ScrMainMenu implements Screen, InputProcessor{
         btnStart.addListener(new InputListener() {//http://gamedev.stackexchange.com/questions/60123/registering-inputlistener-in-libgdx
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.initializeGame();
                 game.currentState = GameMain.GameState.GAME;
                 game.updateScreen();
                 return true;
@@ -69,35 +66,6 @@ public class ScrMainMenu implements Screen, InputProcessor{
             }
         });
         stage.addActor(btnOptions);
-
-        btnLvlSelect= new TextButton("Select Level",textButtonStyle);
-        btnLvlSelect.setSize(210f, 50f);
-        btnLvlSelect.setPosition(210f,100f);
-        btnLvlSelect.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.currentState = GameMain.GameState.LVLSELECT;
-                game.updateScreen();
-                System.out.println("hit");
-                return true;
-            }
-        });
-        stage.addActor(btnLvlSelect);
-
-        btnCharSelect= new TextButton("Select Character",textButtonStyle);
-        btnCharSelect.setSize(210f, 50f);
-        btnCharSelect.setPosition(210f,140f);
-        btnCharSelect.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.currentState = GameMain.GameState.CHARSELECT;
-                game.updateScreen();
-                System.out.println("hit");
-                return true;
-            }
-        });
-        stage.addActor(btnCharSelect);
-
     }
 
     @Override
@@ -106,7 +74,7 @@ public class ScrMainMenu implements Screen, InputProcessor{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         stage.act();
-        spriteMenu.draw(batch);
+        spriteBack.draw(batch);
         batch.end();
         stage.draw();
     }

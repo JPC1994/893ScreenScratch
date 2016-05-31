@@ -13,8 +13,6 @@ import com.badlogic.gdx.physics.box2d.World;
  * Created by Kevin on 13/05/2016.
  */
 
-// TODO: Extend off entity somehow
-
 public class Bullet {
 	Body body;
 	Fixture bodyFixture;

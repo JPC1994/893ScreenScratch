@@ -1,9 +1,8 @@
-package com.mygdx.game.Level;
+package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
-import com.mygdx.game.Screens.ScrCharSelect;
+import com.mygdx.game.Level.ScrGame;
 import com.mygdx.game.Screens.ScrLostRespawn;
-import com.mygdx.game.Screens.ScrLvlSelect;
 import com.mygdx.game.Screens.ScrMainMenu;
 import com.mygdx.game.Screens.ScrOptions;
 
@@ -12,9 +11,8 @@ public class GameMain extends Game {
 	ScrLostRespawn scrRespawn;
 	ScrGame scrGame;
 	ScrMainMenu scrMenu;
-	ScrCharSelect scrCharSelect;
-	ScrLvlSelect scrLvlSelect;
 	ScrOptions scrOptions;
+	String sPlayer, sLvl;
 
 	//got this screen switching code from the intothewoods group:https://github.com/spidermanchild/IntoTheWoodsMultScreens
 	public void updateScreen(){
@@ -26,32 +24,33 @@ public class GameMain extends Game {
 		else if(currentState== GameState.MENU) {
 			setScreen(scrMenu);
 		}
-		/*else if(currentState== GameState.OPTIONS) {
+		else if(currentState== GameState.OPTIONS) {
 			setScreen(scrOptions);
-		}*/
-		else if(currentState== GameState.CHARSELECT) {
-			setScreen(scrMenu);
-		}
-		else if(currentState== GameState.LVLSELECT) {
-			setScreen(scrLvlSelect);
 		}
 	}
 
+	//currently all screen are being preloaded before the options can be toggled in the options screen
+    //therefore, options will not reload data used for processing the level
 	@Override
 	public void create () {
-
-		scrGame = new ScrGame(this);
 		scrRespawn= new ScrLostRespawn(this);
 		scrMenu = new ScrMainMenu(this);
-		scrCharSelect = new ScrCharSelect(this);
-		scrLvlSelect = new ScrLvlSelect(this);
 		scrOptions = new ScrOptions(this);
-		currentState = GameState.LVLSELECT; //Set the current state to the main menu, and update it.
+		//TODO: Lock levels until completed sequentially
+		currentState = GameState.MENU; //Set the current state to the main menu, and update it.
 		updateScreen();
 	}
 
+    public void initializeGame(){
+        sPlayer=scrOptions.sPlayer;//pick player class to use
+        System.out.println("Menu: "+sPlayer);
+        sLvl = scrOptions.sLvl;//pick level map to use
+        System.out.println("Menu: "+ sLvl);
+        scrGame = new ScrGame(this,sPlayer,sLvl);
+    }
+
 	public enum GameState {
 		//main game states
-		DEAD, GAME, MENU, CHARSELECT, LVLSELECT, OPTIONS
+		DEAD, GAME, MENU, OPTIONS
 	}
 }

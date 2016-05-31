@@ -11,8 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.mygdx.game.Level.BtnBaseStyle;
-import com.mygdx.game.Level.GameMain;
+import com.mygdx.game.GameMain;
 
 /**
  * Created by Rueban Rasaselvan on 10/05/2016.
@@ -24,7 +23,7 @@ public class ScrLostRespawn implements Screen, InputProcessor{
     private Texture textureLose;
     private Sprite spriteLose;
     TextButton btnReturn;
-    BtnBaseStyle textButtonStyle = new BtnBaseStyle();
+    TxtBtnBaseStyle textButtonStyle = new TxtBtnBaseStyle();
 
     //TODO: Get a proper end screen and button image for the respawn screen
     public ScrLostRespawn(GameMain game) {
