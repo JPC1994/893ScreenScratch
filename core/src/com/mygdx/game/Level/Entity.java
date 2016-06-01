@@ -80,7 +80,6 @@ public class Entity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 1f;
-        body.setSleepingAllowed(false);
         fixture = body.createFixture(fixtureDef);
         shape.dispose();
     }

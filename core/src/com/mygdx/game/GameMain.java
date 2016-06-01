@@ -37,7 +37,7 @@ public class GameMain extends Game {
 		scrMenu = new ScrMainMenu(this);
 		scrOptions = new ScrOptions(this);
 		//TODO: Lock levels until completed sequentially
-		currentState = GameState.MENU; //Set the current state to the main menu, and update it.
+		currentState = GameState.OPTIONS; //Set the current state to the main menu, and update it.
 		updateScreen();
 	}
 

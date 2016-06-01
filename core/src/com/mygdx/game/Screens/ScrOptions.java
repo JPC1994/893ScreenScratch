@@ -39,7 +39,7 @@ public class ScrOptions implements Screen, InputProcessor{
     TextButton.TextButtonStyle volumeButtonStyle = new TextButton.TextButtonStyle();*/
     Animation aniIdle, aniRun;
     ImageButton imgbtnChar1, imgbtnChar2, imgBtnLvl1, imgBtnLvl2;
-    private Label lblCharSelect, lblLvlSelect, lblVolToggle, lblChar1, lblChar2;
+    private Label lblCharSelect, lblLvlSelect, lblVolToggle, lblChar1, lblChar2, lblLvl1, lblLvl2;
     private Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
     ImgBtnBaseStyle imgBtnBaseStyle;
     TextButton btnReturn;
@@ -47,17 +47,19 @@ public class ScrOptions implements Screen, InputProcessor{
     GameMain game;
     public String sLvl="Level1";
     public String sPlayer="player1";
-    private Texture textureBack;
-    private Sprite spriteBack;
-    boolean isIdle = true, bRight;
+    private Sprite spriteBack, spriteLocked;
+    boolean isIdle = true, bRight, bLvl2Unlocked=false;
     float elapsedTime;
     int width;
     int height;
 
     public ScrOptions(GameMain game) {
         this.game = game;
-        textureBack=new Texture(Gdx.files.internal("images/wall.png"));
-        spriteBack=new Sprite(textureBack);
+        spriteBack=new Sprite(new Texture(Gdx.files.internal("images/wall.png")));
+
+        spriteLocked=new Sprite(new Texture(Gdx.files.internal("images/locked edit.png")));
+        spriteLocked.setSize(200f,150f);
+        spriteLocked.setPosition(350f,100f);
     }
 
 
@@ -72,8 +74,10 @@ public class ScrOptions implements Screen, InputProcessor{
         TextureRegion textureRegion = aniIdle.getKeyFrame(0f, true);
         width = textureRegion.getRegionWidth();
         height = textureRegion.getRegionHeight();
+
         stage= new Stage();
         Gdx.input.setInputProcessor(stage);
+
         //got Mr grondin's button images from the button scratch: https://github.com/Mrgfhci
         btnReturn= new TextButton("Return",textButtonStyle);
         btnReturn.setSize(210f, 50f);
@@ -127,7 +131,7 @@ public class ScrOptions implements Screen, InputProcessor{
 
         //currently using the same player image
         //to differentiate between the different players, using the different animation frames for the images
-        imgBtnBaseStyle = new ImgBtnBaseStyle("player2/run/run.pack","run (1)","run (2)");
+        imgBtnBaseStyle = new ImgBtnBaseStyle("player2/idle/idle.pack","idle (1)","idle (2)");
         imgbtnChar2=new ImageButton(imgBtnBaseStyle);
         imgbtnChar2.setSize(75f,100f);
         imgbtnChar2.setPosition(200f,300f);
@@ -143,14 +147,15 @@ public class ScrOptions implements Screen, InputProcessor{
         });
         stage.addActor(imgbtnChar2);
 
-        imgBtnBaseStyle=new ImgBtnBaseStyle("player2/run/run.pack","run (1)","run (2)");
+        imgBtnBaseStyle=new ImgBtnBaseStyle("player1/idle/idle.pack","idle (1)","idle (2)");
         imgBtnLvl1 = new ImageButton(imgBtnBaseStyle);
         //imgBtnLvl1.setSize(210f, 50f);
-        imgBtnLvl1.setPosition(50f,200f);
+        imgBtnLvl1.setPosition(150,100f);
         imgBtnLvl1.addListener(new InputListener() {//http://gamedev.stackexchange.com/questions/60123/registering-inputlistener-in-libgdx
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 sLvl="Level1";
+                bLvl2Unlocked=true;
                 System.out.println(sLvl);
                 return true;
             }
@@ -158,15 +163,20 @@ public class ScrOptions implements Screen, InputProcessor{
         stage.addActor(imgBtnLvl1);
 
         //TODO: level images to use for choice selection
-        imgBtnBaseStyle=new ImgBtnBaseStyle("player1/run/run.pack","run (1)","run (2)");
+        imgBtnBaseStyle=new ImgBtnBaseStyle("player2/idle/idle.pack","idle (1)","idle (2)");
         imgBtnLvl2= new ImageButton(imgBtnBaseStyle);
         //imgBtnLvl2.setSize(210f, 50f);
-        imgBtnLvl2.setPosition(370f,200f);
+        imgBtnLvl2.setPosition(450f,200f);
         imgBtnLvl2.addListener(new InputListener() {//http://gamedev.stackexchange.com/questions/60123/registering-inputlistener-in-libgdx
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                sLvl="Level2";
-                System.out.println(sLvl);
+                if (bLvl2Unlocked) {
+                    sLvl = "Level2";
+                    System.out.println(sLvl);
+                }
+                else{
+                    System.out.println("Level Locked");
+                }
                 return true;
             }
         });
@@ -187,6 +197,14 @@ public class ScrOptions implements Screen, InputProcessor{
         lblLvlSelect=new Label("Select a Level:",labelStyle);
         lblLvlSelect.setPosition(25f,250f);
         stage.addActor(lblLvlSelect);
+
+        lblLvl1=new Label("Level 1",labelStyle);
+        lblLvl1.setPosition(125f,50f);
+        stage.addActor(lblLvl1);
+
+        lblLvl2=new Label("Level 2",labelStyle);
+        lblLvl2.setPosition(450f,50f);
+        stage.addActor(lblLvl2);
 
         lblVolToggle=new Label("Toggle Volume:",labelStyle);
         lblVolToggle.setPosition(400f,450f);
@@ -210,6 +228,10 @@ public class ScrOptions implements Screen, InputProcessor{
         stage.act();
         //animate buttons
         draw(batch);
+        //lock levels
+        if(bLvl2Unlocked==false){
+            spriteLocked.draw(batch);
+        }
         batch.end();
 
         //draw buttons onto the stage
