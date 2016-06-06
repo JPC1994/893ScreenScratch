@@ -43,7 +43,9 @@ public class ScrGame implements Screen, InputProcessor {
 	BitmapFont font= new BitmapFont();
     boolean bReset=false;
     float elapsedtime = 0;
+    public boolean[] arbWin = new boolean[2];
     String sPlayer, sLvl;
+    int nLvl;
 
 	public ScrGame(GameMain gameMain, String sPlayer, String sLvl) {
 		this.game = gameMain;
@@ -73,12 +75,21 @@ public class ScrGame implements Screen, InputProcessor {
 				Fixture enemyFixture = (fixtureA.getFilterData().groupIndex == -2) ? fixtureA : (fixtureB.getFilterData().groupIndex == -2) ? fixtureB : null;
 				Fixture bulletFixture = (fixtureA.getFilterData().groupIndex == -1) ? fixtureA : (fixtureB.getFilterData().groupIndex == -1) ? fixtureB : null;
 				Fixture playerFoot = (fixtureA.getFilterData().categoryBits==3) ? fixtureA : (fixtureB.getFilterData().categoryBits==3) ? fixtureB : null;
+				Fixture playerBody = (fixtureA.getFilterData().categoryBits==2) ? fixtureA : (fixtureB.getFilterData().categoryBits==2) ? fixtureB : null;
+				Fixture winPoint = (fixtureA.getFilterData().categoryBits==16) ? fixtureA : (fixtureB.getFilterData().categoryBits==16) ? fixtureB : null;
 
 				if (fixtureA == player.footSensor)
 					player.isGrounded = true;
 
 				else if (fixtureB == player.footSensor)
 					player.isGrounded = true;
+
+				if(winPoint!=null && playerBody!=null){
+                    arbWin[nLvl]=true;
+					game.currentState = com.mygdx.game.GameMain.GameState.MENU;
+					game.updateScreen();
+                    arbWin[nLvl]=false;
+				}
 
 				for (int i=0; i<arSpawner.length;i++) {
 					if (enemyFixture != null && (bulletFixture != null || playerFoot != null)) { // An enemy and a bullet collided
@@ -98,13 +109,13 @@ public class ScrGame implements Screen, InputProcessor {
 
 			@Override
 			public void endContact(Contact contact) {
-				Fixture fixtureA = contact.getFixtureA();
-				Fixture fixtureB = contact.getFixtureB();
+				Fixture fa = contact.getFixtureA();
+				Fixture fb = contact.getFixtureB();
 
-				if (fixtureA == player.footSensor)
+				if (fa == player.footSensor)
 					player.isGrounded = false;
 
-				else if (fixtureB == player.footSensor)
+				else if (fb == player.footSensor)
 					player.isGrounded = false;
 			}
 
@@ -209,6 +220,7 @@ public class ScrGame implements Screen, InputProcessor {
 
 		for (EnemySpawner enemySpawner: arSpawner)
 			enemySpawner.update(player.getPosition());
+        //disabled for ease of debugging Level Switching
 
 		world.step(1 / 60f, 6, 2); // Update our world
 

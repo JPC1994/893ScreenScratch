@@ -14,8 +14,12 @@ public class GameMain extends Game {
 	ScrOptions scrOptions;
 	String sPlayer, sLvl;
 
+	boolean[] arbUnlockedLevel= new boolean[2];
+
 	//got this screen switching code from the intothewoods group:https://github.com/spidermanchild/IntoTheWoodsMultScreens
 	public void updateScreen(){
+        //this.arbUnlockedLevel=scrGame.arbWin;
+        scrOptions.update(arbUnlockedLevel);
 		if(currentState== GameState.GAME){
 			setScreen(scrGame);
 		}else if(currentState== GameState.DEAD) {
@@ -35,7 +39,7 @@ public class GameMain extends Game {
 	public void create () {
 		scrRespawn= new ScrLostRespawn(this);
 		scrMenu = new ScrMainMenu(this);
-		scrOptions = new ScrOptions(this);
+		scrOptions = new ScrOptions(this, arbUnlockedLevel);
 		//TODO: Lock levels until completed sequentially
 		currentState = GameState.OPTIONS; //Set the current state to the main menu, and update it.
 		updateScreen();

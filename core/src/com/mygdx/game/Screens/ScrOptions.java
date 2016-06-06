@@ -31,6 +31,9 @@ import com.mygdx.game.GameMain;
  * Created by Rueban Rasaselvan on 10/05/2016.
  */
 public class ScrOptions implements Screen, InputProcessor{
+    GameMain game;
+
+    private Sprite spriteBack, spriteLocked;
     public SpriteBatch batch = new SpriteBatch();
     public SpriteBatch backbatch = new SpriteBatch();
     BitmapFont font = new BitmapFont();
@@ -38,30 +41,37 @@ public class ScrOptions implements Screen, InputProcessor{
     /*TextureAtlas taVolume;
     TextButton.TextButtonStyle volumeButtonStyle = new TextButton.TextButtonStyle();*/
     Animation aniIdle, aniRun;
-    ImageButton imgbtnChar1, imgbtnChar2, imgBtnLvl1, imgBtnLvl2;
+
     private Label lblCharSelect, lblLvlSelect, lblVolToggle, lblChar1, lblChar2, lblLvl1, lblLvl2;
     private Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+
+    ImageButton imgbtnChar1, imgbtnChar2, imgBtnLvl1, imgBtnLvl2;
     ImgBtnBaseStyle imgBtnBaseStyle;
     TextButton btnReturn;
     TxtBtnBaseStyle textButtonStyle = new TxtBtnBaseStyle();
-    GameMain game;
+
     public String sLvl="Level1";
     public String sPlayer="player1";
-    private Sprite spriteBack, spriteLocked;
-    boolean isIdle = true, bRight, bLvl2Unlocked=false;
+
+    boolean isIdle = true, bRight;
+    boolean[] arbLvlUnlocked = new boolean[2];
+
     float elapsedTime;
     int width;
     int height;
 
-    public ScrOptions(GameMain game) {
+    public ScrOptions(GameMain game, boolean[] arbLvlUnlocked) {
         this.game = game;
         spriteBack=new Sprite(new Texture(Gdx.files.internal("images/wall.png")));
-
+        this.arbLvlUnlocked=arbLvlUnlocked;
         spriteLocked=new Sprite(new Texture(Gdx.files.internal("images/locked edit.png")));
         spriteLocked.setSize(200f,150f);
         spriteLocked.setPosition(350f,100f);
     }
 
+    public void update(boolean[] arbWin){
+        this.arbLvlUnlocked=arbWin;
+    }
 
     @Override
     public void show() {
@@ -155,7 +165,7 @@ public class ScrOptions implements Screen, InputProcessor{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 sLvl="Level1";
-                bLvl2Unlocked=true;
+                arbLvlUnlocked[0]=true;
                 System.out.println(sLvl);
                 return true;
             }
@@ -170,7 +180,7 @@ public class ScrOptions implements Screen, InputProcessor{
         imgBtnLvl2.addListener(new InputListener() {//http://gamedev.stackexchange.com/questions/60123/registering-inputlistener-in-libgdx
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (bLvl2Unlocked) {
+                if (arbLvlUnlocked[0]) {
                     sLvl = "Level2";
                     System.out.println(sLvl);
                 }
@@ -229,7 +239,7 @@ public class ScrOptions implements Screen, InputProcessor{
         //animate buttons
         draw(batch);
         //lock levels
-        if(bLvl2Unlocked==false){
+        if(!arbLvlUnlocked[0]){
             spriteLocked.draw(batch);
         }
         batch.end();
@@ -240,8 +250,8 @@ public class ScrOptions implements Screen, InputProcessor{
 
     void draw(SpriteBatch sb) {
         // drawing sprite on main body using default library, not using animatedbox2dsprite because it doesn't loop the animation
-        float x = 450f;
-        float y = 350f;
+        float x = imgBtnLvl1.getX();
+        float y = imgBtnLvl1.getY();
 
         TextureRegion textureRegion;
 

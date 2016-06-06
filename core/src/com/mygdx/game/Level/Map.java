@@ -69,6 +69,7 @@ public class Map {
 	public Vector2[] getEnemySpawnPoints() {
 		MapLayer layer = this.getMap().getLayers().get("Enemy Spawners");
 		MapObjects objects = layer.getObjects();
+
 		nSpawners = objects.getCount();
 		arV2ESpwn = new Vector2[nSpawners];
 		for (i = 0; i < nSpawners; i++) {
