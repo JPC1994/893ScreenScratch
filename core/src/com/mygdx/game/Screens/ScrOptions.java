@@ -250,8 +250,8 @@ public class ScrOptions implements Screen, InputProcessor{
 
     void draw(SpriteBatch sb) {
         // drawing sprite on main body using default library, not using animatedbox2dsprite because it doesn't loop the animation
-        float x = imgBtnLvl1.getX();
-        float y = imgBtnLvl1.getY();
+        float x = imgbtnChar2.getX() + 275f;
+        float y = imgbtnChar2.getY() + 50f;
 
         TextureRegion textureRegion;
 
