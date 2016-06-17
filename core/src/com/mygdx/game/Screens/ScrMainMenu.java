@@ -46,8 +46,6 @@ public class ScrMainMenu implements Screen, InputProcessor{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.initializeGame();
-                game.currentState = GameMain.GameState.GAME;
-                game.updateScreen();
                 return true;
             }
         });
@@ -59,9 +57,7 @@ public class ScrMainMenu implements Screen, InputProcessor{
         btnOptions.addListener(new InputListener() {//http://gamedev.stackexchange.com/questions/60123/registering-inputlistener-in-libgdx
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.currentState = GameMain.GameState.OPTIONS;
-                System.out.println("hit");
-                game.updateScreen();
+                game.setScreen(GameMain.ScreenId.OPTIONS);
                 return true;
             }
         });

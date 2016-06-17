@@ -46,8 +46,7 @@ public class ScrLostRespawn implements Screen, InputProcessor{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //TODO: Update game back to main menu instead of the game screen
-                game.currentState = GameMain.GameState.MENU;
-                game.updateScreen();
+                game.setScreen(GameMain.ScreenId.MENU);
                 return true;
             }
         });

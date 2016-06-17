@@ -84,12 +84,11 @@ public class ScrGame implements Screen, InputProcessor {
 				else if (fixtureB == player.footSensor)
 					player.isGrounded = true;
 
-				if(winPoint!=null && playerBody!=null){
+				/*if(winPoint!=null && playerBody!=null){
                     arbWin[nLvl]=true;
-					game.currentState = com.mygdx.game.GameMain.GameState.MENU;
-					game.updateScreen();
+					game.setScreen(GameMain.ScreenId.MENU);
                     arbWin[nLvl]=false;
-				}
+				}*/
 
 				for (int i=0; i<arSpawner.length;i++) {
 					if (enemyFixture != null && (bulletFixture != null || playerFoot != null)) { // An enemy and a bullet collided
@@ -130,7 +129,7 @@ public class ScrGame implements Screen, InputProcessor {
 				Fixture HarmfulObj = (fa.getFilterData().categoryBits==5) ? fa : (fb.getFilterData().categoryBits==5) ? fb : null;
 
 				for (int i=0; i<arSpawner.length;i++){
-                    if(player.bImmune==false) {
+                    if(!player.bImmune) {
                         //cycle through enemies spawned by all spawners
                         if ((HarmfulObj != null || enemyFixture != null) && playerBody != null) {
                             //set all enemies and bullets to be destroyed on the next call of the clean function
@@ -148,8 +147,7 @@ public class ScrGame implements Screen, InputProcessor {
                             //if the player's health reaches 0, send the user to the game over screen
                             if (player.health == 0) {
                                 //sets the screen for the dead player
-                                game.currentState = com.mygdx.game.GameMain.GameState.DEAD;
-                                game.updateScreen();
+                                game.setScreen(GameMain.ScreenId.DEAD);
                                 reset();
                             }
                         }

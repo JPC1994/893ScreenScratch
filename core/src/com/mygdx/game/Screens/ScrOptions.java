@@ -95,31 +95,11 @@ public class ScrOptions implements Screen, InputProcessor{
         btnReturn.addListener(new InputListener() {//http://gamedev.stackexchange.com/questions/60123/registering-inputlistener-in-libgdx
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.currentState = GameMain.GameState.MENU;
-                game.updateScreen();
+                game.setScreen(GameMain.ScreenId.MENU);
                 return true;
             }
         });
         stage.addActor(btnReturn);
-
-        //TODO: Replace image
-       /* taVolume = new TextureAtlas(Gdx.files.internal("images/UpButton.pack"));
-        //skin.addRegions(taVolume);
-        //volumeButtonStyle.up = skin.getDrawable("MusicOn");
-        btnReturn= new TextButton("",volumeButtonStyle);
-        btnReturn.setSize(210f, 50f);
-        btnReturn.setPosition(210f,100f);
-        btnReturn.addListener(new InputListener() {//http://gamedev.stackexchange.com/questions/60123/registering-inputlistener-in-libgdx
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //TODO: Toggle music on and off
-                /*game.currentState = GameMain.GameState.MENU;
-                game.updateScreen();*/
-
-        /*        return true;
-            }
-        });
-        stage.addActor(btnReturn);*/
 
         //currently using the same player image
         //to differentiate between the different players, using the different animation frames for the images
